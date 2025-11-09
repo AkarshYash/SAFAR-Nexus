@@ -1,0 +1,36 @@
+# FREE Deployment Requirements
+# Works with Neon, Railway, Render, Fly.io, etc.
+
+# Core Framework
+fastapi==0.108.0
+uvicorn[standard]==0.25.0
+
+# Database (works with FREE PostgreSQL: Neon, Supabase, Railway)
+sqlalchemy==2.0.23
+geoalchemy2==0.14.3
+psycopg2-binary==2.9.9
+alembic==1.13.1
+
+# Data Validation
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# File Upload
+python-multipart==0.0.6
+
+# Image Processing (Privacy Blurring)
+opencv-python-headless==4.9.0.80
+pillow==10.1.0
+
+# Storage - Cloudinary (FREE: 25GB storage, no credit card!)
+cloudinary==1.36.0
+
+# Optional: Google Cloud Storage (if not using Cloudinary)
+# google-cloud-storage==2.14.0
+
+# Environment Variables
+python-dotenv==1.0.0
