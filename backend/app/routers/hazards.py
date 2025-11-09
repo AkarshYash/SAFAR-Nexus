@@ -6,7 +6,7 @@ from sqlalchemy import cast, Float
 from app.models.hazard import Hazard
 from app.models.user import User
 from app.services.image_service import blur_sensitive_data
-from app.services.storage_service import upload_to_gcs
+from app.services.storage_service import upload_image
 from app.dependencies import get_current_user
 from app.database import get_db
 import uuid
