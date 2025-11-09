@@ -195,7 +195,28 @@ flutter run
 
 ## Deployment
 
-### Backend (Google Cloud Run)
+### 🎉 Option 1: FREE Deployment (Recommended)
+
+**Cost:** $0/month - No credit card required!
+
+Deploy entire backend in 5 minutes:
+
+```bash
+./scripts/deploy-free.sh
+```
+
+**Services used:**
+- Railway (Backend) - 500 hrs/month FREE
+- Neon (Database) - 3GB PostgreSQL + PostGIS FREE
+- Cloudinary (Storage) - 25GB FREE
+
+**Full guide:** See [QUICKSTART_FREE.md](QUICKSTART_FREE.md) or [docs/DEPLOY_FREE.md](docs/DEPLOY_FREE.md)
+
+---
+
+### Option 2: Google Cloud Platform (Paid)
+
+**Cost:** ~$11-270/month
 
 1. Build Docker image:
 ```bash
@@ -213,6 +234,10 @@ gcloud run deploy safar-nexus-api \
   --allow-unauthenticated \
   --set-env-vars DATABASE_URL=<your-db-url>,JWT_SECRET_KEY=<secret>
 ```
+
+**See also:** [scripts/README.md](scripts/README.md) for deployment comparison
+
+---
 
 ### Mobile App
 
