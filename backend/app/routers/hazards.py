@@ -44,8 +44,8 @@ async def create_hazard(
     # Apply privacy blurring
     blurred_image_bytes = blur_sensitive_data(image_bytes)
 
-    # Upload to Google Cloud Storage
-    image_url = upload_to_gcs(blurred_image_bytes, f"{uuid.uuid4()}.jpg")
+    # Upload to configured storage (Cloudinary FREE or Google Cloud Storage)
+    image_url = upload_image(blurred_image_bytes, f"{uuid.uuid4()}.jpg")
 
     # Create hazard record with PostGIS point
     point = WKTElement(f'POINT({longitude} {latitude})', srid=4326)
