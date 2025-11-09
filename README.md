@@ -8,6 +8,27 @@ A next-generation road intelligence platform that transforms smartphone users in
 
 SAFAR-Nexus uses computer vision and on-device AI to detect road hazards (potholes, speed breakers, debris) in real-time through smartphone cameras. The system geotags events, sends instant alerts to nearby drivers, and maintains end-to-end privacy by automatically blurring faces and license plates.
 
+## 🎉 100% FREE Deployment Available!
+
+Deploy SAFAR-Nexus with **ZERO cost** using completely FREE services - no credit card required!
+
+```bash
+./scripts/deploy-free.sh
+```
+
+**What you get:**
+- ✅ Backend on Railway (500 hrs/month FREE)
+- ✅ PostgreSQL + PostGIS on Neon (3GB FREE)
+- ✅ Image storage on Cloudinary (25GB FREE)
+- ✅ **Total: $0/month - No credit card needed!**
+
+**Deployment time:** 5 minutes (automated)
+
+👉 **Quick Start Guide:** [QUICKSTART_FREE.md](QUICKSTART_FREE.md)
+📚 **Full FREE Guide:** [docs/DEPLOY_FREE.md](docs/DEPLOY_FREE.md)
+
+---
+
 ### Key Features
 
 - **Real-Time Detection**: YOLOv11-based pothole detection at 10-20 FPS
