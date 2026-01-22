@@ -1,68 +1,55 @@
 version: '3.8'
 
 services:
-  # PostgreSQL with PostGIS
-  database:
+  postgres:
     image: postgis/postgis:15-3.3
-    container_name: safar-nexus-db
+    container_name: safar_postgres
     environment:
+      POSTGRES_USER: safar
+      POSTGRES_PASSWORD: safar123
       POSTGRES_DB: safar_nexus
-      POSTGRES_USER: safar_user
-      POSTGRES_PASSWORD: safar_password_change_in_production
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U safar_user -d safar_nexus"]
+      test: ["CMD-SHELL", "pg_isready -U safar"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  # FastAPI Backend
+  redis:
+    image: redis:7-alpine
+    container_name: safar_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: safar-nexus-backend
-    environment:
-      DATABASE_URL: postgresql://safar_user:safar_password_change_in_production@database:5432/safar_nexus
-      JWT_SECRET_KEY: dev-secret-key-change-in-production-min-32-characters-required
-      GCS_BUCKET_NAME: safar-nexus-images-dev
-      GOOGLE_APPLICATION_CREDENTIALS: /app/credentials/service-account-dev.json
+    container_name: safar_backend
     ports:
       - "8000:8000"
-    volumes:
-      - ./backend/app:/app/app:ro
-      - ./credentials:/app/credentials:ro
+    environment:
+      DATABASE_URL: postgresql+asyncpg://safar:safar123@postgres:5432/safar_nexus
+      REDIS_URL: redis://redis:6379/0
     depends_on:
-      database:
+      postgres:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    restart: unless-stopped
-
-  # Nginx (Optional - for production-like setup)
-  nginx:
-    image: nginx:alpine
-    container_name: safar-nexus-nginx
-    ports:
-      - "80:80"
-      - "443:443"
+      redis:
+        condition: service_healthy
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - backend
-    restart: unless-stopped
+      - ./backend:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 volumes:
   postgres_data:
-    driver: local
-
-networks:
-  default:
-    name: safar-nexus-network
+  redis_data:
